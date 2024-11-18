@@ -1,25 +1,37 @@
 const container = document.querySelector('.container');
-const widthX = 1900 * 16;
-const heightY = 48 * 16;
 const button = document.querySelector('button');
 let squares = 16;
+let isDrawing = false;
 function createGrid(squares) {
     for (let i = 0; i < squares; i++) {
         const parentDiv = document.createElement('div');
         parentDiv.classList.add('row');
+        parentDiv.style.width = '800px';
+        parentDiv.style.height = `${800 / squares}px`;
         for (let j = 0; j < squares; j++) {
             const newDiv = document.createElement('div');
-            newDiv.style.width = `${widthX / squares}px`;
-            newDiv.style.height = `${heightY / squares}px`;
+            newDiv.style.width = `${800 / squares}px`;
+            newDiv.style.height = `${800 / squares}px`;
+
+            newDiv.addEventListener('mousemove', () => {    
+                if(isDrawing) {
+                    newDiv.style.backgroundColor = 'black';
+                    newDiv.classList.add('clicked');
+                }
+            });
+
             newDiv.addEventListener('mouseover', () => {
-                newDiv.style.backgroundColor = 'black';
+                if(!newDiv.classList.contains('clicked') && !isDrawing) {
+                    newDiv.style.backgroundColor = 'black';
+                }
             });
             newDiv.addEventListener('mouseout', () => {
-                if(!newDiv.classList.contains('clicked')) {
+                if(!newDiv.classList.contains('clicked') && !isDrawing) {
                     newDiv.style.backgroundColor = 'blanchedalmond';
                 }
             });
-            newDiv.addEventListener('click', () => {
+            newDiv.addEventListener('mousedown', () => {
+                isDrawing = true;
                 if(newDiv.classList.contains('clicked')) {
                     newDiv.style.backgroundColor = 'blanchedalmond'
                     newDiv.classList.remove('clicked');
@@ -27,6 +39,9 @@ function createGrid(squares) {
                 }
                 newDiv.style.backgroundColor = 'black';
                 newDiv.classList.add('clicked');
+            });
+            newDiv.addEventListener('mouseup', () => {
+                isDrawing = false;
             });
             parentDiv.appendChild(newDiv);
         }
