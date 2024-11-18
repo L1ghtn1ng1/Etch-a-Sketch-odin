@@ -17,20 +17,26 @@ function createGrid(squares) {
                 if(isDrawing) {
                     newDiv.style.backgroundColor = 'black';
                     newDiv.classList.add('clicked');
+                    console.log('moving');
                 }
             });
 
             newDiv.addEventListener('mouseover', () => {
+                
                 if(!newDiv.classList.contains('clicked') && !isDrawing) {
                     newDiv.style.backgroundColor = 'black';
+                    console.log('hovering');
                 }
             });
             newDiv.addEventListener('mouseout', () => {
                 if(!newDiv.classList.contains('clicked') && !isDrawing) {
                     newDiv.style.backgroundColor = 'blanchedalmond';
+                    console.log('leaving');
                 }
             });
-            newDiv.addEventListener('mousedown', () => {
+            newDiv.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                console.log('click');
                 isDrawing = true;
                 if(newDiv.classList.contains('clicked')) {
                     newDiv.style.backgroundColor = 'blanchedalmond'
@@ -42,6 +48,8 @@ function createGrid(squares) {
             });
             newDiv.addEventListener('mouseup', () => {
                 isDrawing = false;
+                console.log('unclick');
+
             });
             parentDiv.appendChild(newDiv);
         }
